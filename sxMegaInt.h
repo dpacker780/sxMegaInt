@@ -5,6 +5,11 @@
 #include <limits>
 #include <array>
 
+//********************************************************************************************/
+// sxMegaInt: A std::bitset based big integer header-only class. 
+//
+//********************************************************************************************/
+
 constexpr std::array<char, 10> SX_THE_ODDS{ 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
 constexpr unsigned int SX_MAX_LL_BITS = sizeof(long long) * CHAR_BIT;
 
