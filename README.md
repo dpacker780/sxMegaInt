@@ -1,6 +1,6 @@
 # sxMegaInt: 
 
-This is a header-only C++ template big-int class based on std::bitset. I created it for a few reasons (A) Curiousity to learn how big-int type classes could be created and work. (B) With few examples out there, seeing if std::bitset could actually fulfill the job (Yes!), and (C) It took a lot of scouring to figure out how to implementat the algorithms for binary math, especially divide.  You'd think their would be more of them out there, but there are fewer than you realize, and often they have 64-bit constraints.
+This is a header-only C++ template big-int class based on std::bitset. I created it for a few reasons (A) Curiousity to learn how big-int type classes could be created and work. (B) With few examples out there, seeing if std::bitset could actually fulfill the job (Yes!), and (C) It took a lot of scouring to figure out how to implement the algorithms for binary math, especially divide.  You'd think their would be more of them out there, but there are fewer than you realize, and often they have 64-bit constraints.
 
 Example - creating a 2048 bit number and doing 300 factorial.
 
