@@ -162,15 +162,14 @@ class sxMegaInt {
         void bitmult(const std::bitset<N>& other) { mValue = bitmult(mValue, other); }
         std::bitset<N> bitmult(const std::bitset<N>& lhs, const std::bitset<N>& rhs) {
             std::bitset<N> this_set = mValue;
-            std::bitset<N> add_result; 
-
-            int max_run = std::max(first_bit(lhs), first_bit(rhs));
+            std::bitset<N> add_result{};
+            std::bitset<N> mult_result{};
+ 
+            const int max_run = std::max(first_bit(lhs), first_bit(rhs));
 
             for(int i = 0; i <= max_run ; i++) {
-                std::bitset<N> mult_result; 
                 if(this_set[i]) {
-                    mult_result = rhs;
-                    mult_result <<= i;
+                    mult_result = (rhs << i);
                     fast_add(add_result, add_result, mult_result);
                 }
             }
