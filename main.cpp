@@ -109,6 +109,15 @@ int main() {
         std::cerr << "Yup, caught!" << "\n\n";
     }
 
+    sxMegaInt<8192> ans9 = 800;
+    for(int i = 799; i > 0; i--) {
+        ans9 *= i; 
+    }
+
+    std::cout << "FACTORIAL 800! " << std::endl;
+    std::cout << "D-ANSWER: " << ans9.to_decstring() << "\n\n";
+
+
     try {
         std::cout << "EXPECTED: THROW DIVIDE BY ZERO." << "\n";
         ans6 /= 0; // Divide by zero throw
