@@ -28,18 +28,18 @@ class sxMegaInt {
 
         sxMegaInt& operator=(const sxMegaInt& val)    { if(this == &val) return *this; mValue = val.mValue; return *this; }
         sxMegaInt& operator=(const std::string& val)  { mValue = decstr2binary(val); return *this; }
-        sxMegaInt& operator=(const long long& val)    { mValue = std::bitset<N>(val); if(val < 0) mValue |= ~mask_ll; return *this; }
+        sxMegaInt& operator=(const long long& val)    { mValue = neg_check(val); return *this; }
 
         sxMegaInt& operator+(const sxMegaInt& rhs)    { sxMegaInt nset = *this; nset.bin_add(nset.mValue, mValue, rhs.mValue); return nset; }
-        sxMegaInt& operator+(const long long& rhs)    { sxMegaInt nset = *this; nset.bin_add(nset.mValue, mValue, std::bitset<N>(rhs)); return nset; }
+        sxMegaInt& operator+(const long long& rhs)    { sxMegaInt nset = *this; nset.bin_add(nset.mValue, mValue, neg_check(rhs)); return nset; }
         sxMegaInt& operator+(const std::string& rhs)  { sxMegaInt nset = *this; nset.bin_add(nset.mValue, mValue, decstr2binary(rhs));  return nset; }
         sxMegaInt& operator+=(const sxMegaInt& rhs)   { bin_add(mValue, mValue, rhs.mValue); return *this;  }
-        sxMegaInt& operator+=(const long long& rhs)   { bin_add(mValue, mValue, std::bitset<N>(rhs)); return *this; }
+        sxMegaInt& operator+=(const long long& rhs)   { bin_add(mValue, mValue, neg_check(rhs)); return *this; }
         sxMegaInt& operator+=(const std::string& rhs) { bin_add(mValue, mValue, (decstr2binary(rhs))); return *this; }
         sxMegaInt& operator++() { bin_add(mValue, mValue, binary_one); return *this; }
 
         sxMegaInt& operator-(const sxMegaInt& rhs)    { sxMegaInt nset = *this; nset.bin_sub(nset.mValue, mValue, rhs.mValue); return nset; }
-        sxMegaInt& operator-(const long long& rhs)    { sxMegaInt nset = *this; nset.bin_sub(nset.mValue, mValue, std::bitset<N>(rhs)); return nset; }
+        sxMegaInt& operator-(const long long& rhs)    { sxMegaInt nset = *this; nset.bin_sub(nset.mValue, mValue, neg_check(rhs)); return nset; }
         sxMegaInt& operator-(const std::string& rhs)  { sxMegaInt nset = *this; nset.bin_sub(nset.mValue, mValue, decstr2binary(rhs)); return nset; }
         sxMegaInt& operator-=(const sxMegaInt& rhs)   { bin_sub(mValue, mValue, rhs.mValue); return *this;  }
         sxMegaInt& operator-=(const long long& rhs)   { bin_sub(mValue, mValue, std::bitset<N>(rhs)); return *this; }
@@ -47,39 +47,39 @@ class sxMegaInt {
         sxMegaInt& operator--() { bin_sub(mValue, mValue, binary_one); return *this; }
 
         sxMegaInt& operator*(const sxMegaInt& rhs)    { sxMegaInt nset = *this; nset.bin_mult(nset.mValue, mValue, rhs.mValue); return nset; }
-        sxMegaInt& operator*(const long long& rhs)    { sxMegaInt nset = *this; nset.bin_mult(nset.mValue, mValue, std::bitset<N>(rhs)); return nset; }
+        sxMegaInt& operator*(const long long& rhs)    { sxMegaInt nset = *this; nset.bin_mult(nset.mValue, mValue, neg_check(rhs)); return nset; }
         sxMegaInt& operator*(const std::string& rhs)  { sxMegaInt nset = *this; nset.bin_mult(nset.mValue, mValue, decstr2binary(rhs)); return nset; }
  
         sxMegaInt& operator*=(const sxMegaInt& rhs)   { bin_mult(mValue, mValue, rhs.mValue); return *this; }
-        sxMegaInt& operator*=(const long long& rhs)   { bin_mult(mValue, mValue, std::bitset<N>(rhs)); return *this; }
+        sxMegaInt& operator*=(const long long& rhs)   { bin_mult(mValue, mValue, neg_check(rhs)); return *this; }
         sxMegaInt& operator*=(const std::string& rhs) { bin_mult(mValue, mValue, decstr2binary(rhs)); return *this; }
 
         sxMegaInt& operator/(const sxMegaInt& rhs)    { sxMegaInt nset = *this; nset.bin_div(nset.mValue, mValue, rhs.mValue); return nset; }
-        sxMegaInt& operator/(const long long& rhs)    { sxMegaInt nset = *this; nset.bin_div(nset.mValue, mValue, std::bitset<N>(rhs)); return nset; }
+        sxMegaInt& operator/(const long long& rhs)    { sxMegaInt nset = *this; nset.bin_div(nset.mValue, mValue, neg_check(rhs)); return nset; }
         sxMegaInt& operator/(const std::string& rhs)  { sxMegaInt nset = *this; nset.bin_div(nset.mValue, mValue, decstr2binary(rhs)); return nset; }
  
         sxMegaInt& operator/=(const sxMegaInt& rhs)   { bin_div(mValue, mValue, rhs.mValue); return *this; }
-        sxMegaInt& operator/=(const long long& rhs)   { bin_div(mValue, mValue, std::bitset<N>(rhs)); return *this; }
+        sxMegaInt& operator/=(const long long& rhs)   { bin_div(mValue, mValue, neg_check(rhs)); return *this; }
         sxMegaInt& operator/=(const std::string& rhs) { bin_div(mValue, mValue, decstr2binary(rhs)); return *this; }
 
         bool operator==(const sxMegaInt& rhs)         { return binary_compare(mValue, rhs.mValue) == 0; }
-        bool operator==(const long long& rhs)         { return binary_compare(mValue, std::bitset<N>(rhs)) == 0;  }
+        bool operator==(const long long& rhs)         { return binary_compare(mValue, neg_check(rhs)) == 0;  }
         bool operator==(const std::string& rhs)       { return binary_compare(mValue, decstr2binary(rhs)); }
 
         bool operator>(const sxMegaInt& rhs)          { return binary_compare(mValue, rhs.mValue) == 1; }
-        bool operator>(const long long& rhs)          { return binary_compare(mValue, std::bitset<N>(rhs)) == 1;  }
+        bool operator>(const long long& rhs)          { return binary_compare(mValue, neg_check(rhs)) == 1;  }
         bool operator>(const std::string& rhs)        { return binary_compare(mValue, decstr2binary(rhs)) == 1; }
 
         bool operator>=(const sxMegaInt& rhs)         { return binary_compare(mValue, rhs.mValue) >= 0; }
-        bool operator>=(const long long& rhs)         { return binary_compare(mValue, std::bitset<N>(rhs)) >= 0;  }
+        bool operator>=(const long long& rhs)         { return binary_compare(mValue, neg_check(rhs)) >= 0;  }
         bool operator>=(const std::string& rhs)       { return binary_compare(mValue, decstr2binary(rhs)) >= 0; }
 
         bool operator<(const sxMegaInt& rhs)          { return binary_compare(mValue, rhs.mValue) == -1; }
-        bool operator<(const long long& rhs)          { return binary_compare(mValue, std::bitset<N>(rhs)) == -1;  }
+        bool operator<(const long long& rhs)          { return binary_compare(mValue, neg_check(rhs)) == -1;  }
         bool operator<(const std::string& rhs)        { return binary_compare(mValue, decstr2binary(rhs)) == -1; }
 
         bool operator<=(const sxMegaInt& rhs)         { return binary_compare(mValue, rhs.mValue) <= 0; }
-        bool operator<=(const long long& rhs)         { return binary_compare(mValue, std::bitset<N>(rhs)) <= 0;  }
+        bool operator<=(const long long& rhs)         { return binary_compare(mValue, neg_check(rhs)) <= 0;  }
         bool operator<=(const std::string& rhs)       { return binary_compare(mValue, decstr2binary(rhs)) <= 0; }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -124,10 +124,12 @@ class sxMegaInt {
         static inline const std::bitset<N> binary_one = std::bitset<N>(1);
         static inline const std::bitset<N> binary_zero = std::bitset<N>(0);
 
+        std::bitset<N> neg_check(const long long& val) { std::bitset<N> tmp(val); if(val < 0) tmp |= ~mask_ll; return tmp; }
+
         // Binary Add
         void bin_add(std::bitset<N>& result, std::bitset<N> a, std::bitset<N> b) {
             std::bitset<N> carry;
-            while(b != 0) {
+            while(b.any()) {
                 carry = (a & b) << 1;
                 a = a ^ b;
                 b = carry;
