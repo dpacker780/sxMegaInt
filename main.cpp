@@ -140,6 +140,13 @@ int main() {
     std::cout << "FACTORIAL 800 RESULT (bin -> decstring): " << ans9.to_decstring() << "\n\n";
 
     try {
+        std::cout << "EXPECTED: THROW LONG LONG RESULT EXCEPTION." << "\n";
+        std::cout << ans9.to_llong() << "\n";
+    } catch(...) {
+        std::cerr << "Yup, caught!" << "\n\n";
+    }
+
+    try {
         std::cout << "EXPECTED: THROW DIVIDE BY ZERO." << "\n";
         ans6 /= 0; // Divide by zero throw
     } catch(...) {
