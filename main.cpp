@@ -1,3 +1,5 @@
+
+#include <chrono>
 #include "sxMegaInt.h"
 
 int main() {
@@ -93,30 +95,49 @@ int main() {
     ans7 += "123123132131";
     std::cout << "STRING += EXPECTED: 24624664262 " << std::endl;
     std::cout << "D-ANSWER: " << ans7.to_decstring() << "\n\n";
+    
 
-    sxMegaInt<2048> ans8 = 300;
-    for(int i = 299; i > 0; i--) {
-        ans8 *= i; 
+    // OPTIMIZATION TESTING LOOP
+
+    float total_time = 0;
+    sxMegaInt<2048> ans8;
+    sxMegaInt<8192> ans9;
+
+    auto start = std::chrono::high_resolution_clock::now();
+    std::cout << "STARTING TIMING LOOP" << std::endl;
+
+    for(int i = 1; i < 10 ; i++) {
+        std::cout << "FACTORIAL 300! " << std::endl;
+        ans8 = 300;
+        for(int i = 299; i > 0; i--) {
+            ans8 *= i; 
+        }
+
+        // std::cout << "D-ANSWER: " << ans8.to_decstring() << "\n\n";
+
+        /*
+        std::cout << "FACTORIAL 300! OVERFLOW LONG LONG" << "\n";
+        try {
+            std::cout << ans8.to_llong() << "\n";
+        } catch(...) {
+            std::cerr << "Yup, caught!" << "\n\n";
+        }
+        */
+        std::cout << "FACTORIAL 800! " << std::endl;
+ 
+        ans9 = 800;
+        for(int i = 799; i > 0; i--) {
+            ans9 *= i; 
+        }
+
+        auto stop = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
+        total_time = duration.count()/1000.0f;
+        std::cout << "Iter: " << i << " Duration Avg: " << total_time / i << "sec" << "\n";
     }
-
-    std::cout << "FACTORIAL 300! " << std::endl;
-    std::cout << "D-ANSWER: " << ans8.to_decstring() << "\n\n";
-
-    std::cout << "FACTORIAL 300! OVERFLOW LONG LONG" << "\n";
-    try {
-        std::cout << ans8.to_llong() << "\n";
-    } catch(...) {
-        std::cerr << "Yup, caught!" << "\n\n";
-    }
-
-    sxMegaInt<8192> ans9 = 800;
-    for(int i = 799; i > 0; i--) {
-        ans9 *= i; 
-    }
-
-    std::cout << "FACTORIAL 800! " << std::endl;
-    std::cout << "D-ANSWER: " << ans9.to_decstring() << "\n\n";
-
+    std::cout << "END TIMING LOOP" << std::endl;
+    std::cout << "FACTORIAL 800 RESULT (bin -> decstring): " << ans9.to_decstring() << "\n\n";
 
     try {
         std::cout << "EXPECTED: THROW DIVIDE BY ZERO." << "\n";

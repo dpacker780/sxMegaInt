@@ -130,9 +130,13 @@ class sxMegaInt {
         void bin_add(std::bitset<N>& result, std::bitset<N> a, std::bitset<N> b) {
             std::bitset<N> carry;
             while(b.any()) {
-                carry = (a & b) << 1;
-                a = a ^ b;
-                b = carry;
+                // carry = (a & b) << 1; 
+                // Breaking this out is faster as below.
+                carry = a;
+                carry &= b;
+                carry <<= 1;
+                a ^= b;
+                b = std::move(carry);
             }
             result = std::move(a);
         }
@@ -151,7 +155,10 @@ class sxMegaInt {
 
             for(int i = 0; i <= max_run ; i++) {
                 if(lhs[i]) {
-                    mult_result = (rhs << i);
+                    // mult_result (rhs << i)
+                    // Breaking this out below is faster.
+                    mult_result = rhs;
+                    mult_result <<= i;
                     bin_add(add_result, add_result, mult_result);
                 }
             }
